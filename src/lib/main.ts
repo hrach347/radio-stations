@@ -1,25 +1,38 @@
 import { publicApiUrl, routes } from "../constants.js"
-import type { Filter, ObjectIn, SearchType } from "../types.js"
+import type { Category, Filter, SearchType, Station } from "../types.js"
 
 
-async function fetchData(url: string): Promise<ObjectIn[] | null> {
+async function fetchData<T>(url: string): Promise<T[] | null> {
     try {
         const response = await fetch(url)
 
         if (!response.ok) return null
 
-        return await response.json() as ObjectIn[]
+        return await response.json() as T[]
     } catch {
         return null
     }
 }
 
-export async function getAll(filter: Filter = ""): Promise<ObjectIn[] | null> {
+export async function getAll(filter: Filter = ""): Promise<Category[] | null> {
     if (!filter) return fetchData(publicApiUrl + routes.all)
-    return fetchData(publicApiUrl + routes[filter])
+    return fetchData<Category>(publicApiUrl + routes[filter])
 }
 
-export async function searchStations(searchType: SearchType = "", searchItem: string = ""): Promise<ObjectIn[] | null> {
+export async function searchStations(searchType: SearchType = "", searchItem: string = ""): Promise<Station[] | null> {
     if (!searchType) return fetchData(publicApiUrl + routes.all)
-    return fetchData(`${publicApiUrl + routes.all}/${searchType}/${searchItem}`)
+    return fetchData<Station>(`${publicApiUrl + routes.all}/${searchType}/${searchItem}`)
+}
+
+export function prune(list: Station[]): Partial<Station>[] {
+    return list.map(({ stationuuid, name, url, homepage, tags, country, countrycode, language }) => ({
+        stationuuid,
+        name,
+        url,
+        homepage,
+        tags,
+        country,
+        countrycode,
+        language
+    }))
 }

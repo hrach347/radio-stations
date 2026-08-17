@@ -1,10 +1,14 @@
-import { getAll, searchStations } from "../dist/index.js"
+import { getAll, prune, searchStations } from "../dist/index.js"
+
 
 const podcasts = await searchStations("bytag", "podcast")
-console.log(podcasts)
+console.log(podcasts.length)
 
 const inArmenia = await searchStations("bycountrycodeexact", "AM")
-console.log(inArmenia)
+console.log(prune(inArmenia).length)
 
 const availableCountries = await getAll("countries")
-console.log(availableCountries)
+console.log(availableCountries.length)
+
+const availableLanguages = await getAll("languages")
+console.log(availableLanguages.length)

@@ -1,1 +1,1 @@
-export { searchStations, getAll } from "./lib/main.js"
+export { searchStations, getAll, prune } from "./lib/main.js"
