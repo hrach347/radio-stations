@@ -56,6 +56,41 @@ const tags = await getAll("tags")
 const podcasts = await searchStations("bytag", "podcast")
 ```
 
+---
+
+# 🎵 Play a Radio Stream
+
+Play a live `radio stream` directly from Node.js using **FFmpeg**.
+
+> **Linux/macOS only**
+
+### Requirements
+
+Install FFmpeg
+
+```bash
+sudo apt install ffmpeg
+```
+
+### Usage
+```js
+import { playStream } from "radio-stations"
+
+const player = await playStream("https://cast.thiff.com/proxy/laarmeni?mp=/stream")
+```
+The stream starts playing immediately through `ffplay`.
+### Logging
+
+Pass `true` as the second argument to enable FFmpeg output:
+```js
+const player = await playStream("https://cast.thiff.com/proxy/laarmeni?mp=/stream",true)
+```
+### Stop Playback
+
+```js
+player.stop()
+```
+
 --- 
 
 ### The Best **radio-station** discovery experience for us "developers"
